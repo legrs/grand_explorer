@@ -1,5 +1,6 @@
 using System.Numerics;
 using System;
+using static Main;
 
 public partial class CelCon
 {
@@ -13,7 +14,7 @@ public partial class CelCon
             gvec.Z = (float)(diffPos[2] * Main.MAXD * 1000 / d);
             radius = radius * (float)(Main.MAXD * 1000 / d);
 
-            float minRadius = (float)Main.MAXD * 1000 *  MathF.Sin(Main.FOV/300);
+            float minRadius = (float)Main.MAXD * 1000 *  MathF.Sin(Main.FOV/500);
             if ( radius < minRadius){
                     radius = minRadius;
             }

@@ -2,7 +2,6 @@ using System;
 using System.Numerics;
 
 public partial class Main{
-    
     public static string displayTEL(int i){
         string result = "";
         //result += $"R SHT : {Math.Round(RSHT            , 4)}\n";

@@ -6,7 +6,7 @@ using System.Numerics;
 public partial class Main : Godot.Node3D
 {
     //debugよう変数
-    public static int maxCI=1+    9  ; //ここを変更 1<= <=9
+    public static int maxCI=1+    8  ; //ここを変更 1<= <=9
 
 
     public struct Inputs{
@@ -70,15 +70,15 @@ public partial class Main : Godot.Node3D
         public static Orbit[] o = new Orbit[10]{
             new Orbit(),
                 //      period        e      Laxis       epo       s0     s1 s2 c1 c2 ci  s1~sc2は実行時に計算して埋める period,Laxis,epoなどは調整される この数値はいとうこうやの本にのってたもの
-            new Orbit(2111.256     ,0.20563F,57909185  ,358.660F,77.462F ,0,0,0,0,1,1, 0, 0),
-            new Orbit(5392.824     ,0.00678F,108208926 ,295.535F,131.564F,0,0,0,0,1,1, 0, 0),
-            new Orbit(8765.812536  ,0.01672F,149597870 ,175.647F,102.950F,0,0,0,0,1,1, 0, 0),
-            new Orbit(16487.52     ,0.09338F,227940928 ,328.285F,336.076F,0,0,0,0,1,1, 0, 0),
-            new Orbit(103976.123686,0.04829F,778332734 ,126.078F,14.339F ,0,0,0,0,1,1, 0, 0),
-            new Orbit(258873.378343,0.05604F,1426978478,359.712F,93.077F ,0,0,0,0,1,1, 0, 0),
-            new Orbit(738546.091254,0.04612F,2870991216,156.021F,173.008F,0,0,0,0,1,1, 0, 0),
-            new Orbit(1444518.24781,0.01011F,4497071892,263.861F,48.112F ,0,0,0,0,1,1, 0, 0),
-            new Orbit(2171648.20414,0.24847F,5913523048,19.403F ,224.141F,0,0,0,0,1,1, 0, 0)
+            new Orbit(2111.256     ,0.20563F,57909185  ,358.660F,77.462F ,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(5392.824     ,0.00678F,108208926 ,295.535F,131.564F,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(8765.812536  ,0.01672F,149597870 ,175.647F,102.950F,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(16487.52     ,0.09338F,227940928 ,328.285F,336.076F,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(103976.123686,0.04829F,778332734 ,126.078F,14.339F,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(258873.378343,0.05604F,1426978478,359.712F,93.077F ,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(738546.091254,0.04612F,2870991216,156.021F,173.008F,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(1444518.24781,0.01011F,4497071892,263.861F,48.112F ,0,0,0,0,1,1, 0, 0,-2,0),
+            new Orbit(2171648.20414,0.24847F,5913523048,19.403F ,224.141F,0,0,0,0,1,1, 0, 0,-2,0)
         };
     }
     public class Probe{　//探査機の構造体
@@ -133,13 +133,19 @@ public partial class Main : Godot.Node3D
     public static Godot.Button[] sync = new Godot.Button[4]; //checkbuttonをbuttonに格納してもうまくいくww
     public static Godot.LineEdit[] VSHTdisp = new Godot.LineEdit[5];
     public static Godot.Button setVtime ;
+    public static Godot.Window doReset;
+    public static Godot.Button resetGame ;
+    public static Godot.Button removePopup ;
+    public static Godot.Window ex;
+    public static Godot.Button exShow ;
+    public static Godot.Button exClose ;
 
     public override void _Ready()
     {
         string viewportcontainer = "/root/Main/Control/HSC1/Tab/CG画面/Control/ViewportContainer";
         string viewport = viewportcontainer + "/Viewport";
         //string viewport = "./SubViewport";
-        for(int i=0; i<9; i++){
+        for(int i=0; i<maxCI; i++){
             CelN[i] = (Godot.Node3D)GetNode($"{viewport}/{celName[i]}");
         }
         //nodeをget*/
@@ -183,13 +189,20 @@ public partial class Main : Godot.Node3D
         sync[0] = (Godot.Button)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/Button"); //v with r [button]
         sync[1] = (Godot.Button)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/Button2"); //vts with r  [button]
         sync[2] = (Godot.Button)GetNode("/root/Main/Control/HSC1/Tab/CG画面/TOOLP/HC/VC/CheckButton");  //rts with vts
-        sync[3] = (Godot.Button)GetNode("/root/Main/Control/HSC1/Tab/CG画面/TOOLP/HC/VC/HFC3/set2");  //r with v        [button]
+        sync[3] = (Godot.Button)GetNode("/root/Main/Control/cmdPanel/set2");  //r with v        [button]
         VSHTdisp[0] = (Godot.LineEdit)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/HFC/time/yyyy");
         VSHTdisp[1] = (Godot.LineEdit)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/HFC/time/mm");
         VSHTdisp[2] = (Godot.LineEdit)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/HFC/time/dd");
         VSHTdisp[3] = (Godot.LineEdit)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/HFC/time/hh");
         VSHTdisp[4] = (Godot.LineEdit)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/HFC/time/mm2");
         setVtime = (Godot.Button)GetNode("/root/Main/Control/HSC1/Tab/軌道設計/HSC1/TOOLP/HC/VC/HFC/set");
+        doReset = (Godot.Window)GetNode("/root/Main/Control/doReset");
+        resetGame = (Godot.Button)GetNode("/root/Main/Control/doReset/Control/Button");
+        removePopup = (Godot.Button)GetNode("/root/Main/Control/doReset/Control/Button2");
+        ex = (Godot.Window)GetNode("/root/Main/Control/doReset2");
+        exShow = (Godot.Button)GetNode("/root/Main/Control/cmdPanel/set3");
+        exClose = (Godot.Button)GetNode("/root/Main/Control/doReset2/Control/Button");
+
         //ui操作
         //tsN[0].Textが書きかわるのは、手入力,sync[2].Pressed、tsLockN[0].Pressed、tsValueNとtdDigiNのChanded
         //lock時に書きかえられないやうにす
@@ -212,11 +225,20 @@ public partial class Main : Godot.Node3D
             }
         };
         sync[3].Pressed += ()=>{
-            if(sync[3].ButtonPressed){
-                if(RSHT <= VSHT){ //やったことは元にはもどらない。
-                    RSHT = VSHT;
-                }
-            }
+            doReset.Visible = true;
+        };
+        resetGame.Pressed += ()=>{
+            _Ready();
+            doReset.Visible = false;
+        };
+        removePopup.Pressed += ()=>{
+            doReset.Visible = false;
+        };
+        exShow.Pressed += ()=>{
+            ex.Visible = true;
+        };
+        exClose.Pressed += ()=>{
+            ex.Visible = false;
         };
         setVtime.Pressed += ()=>{
             VSHT = date2SHT(VSHTdisp[0].Text,VSHTdisp[1].Text,VSHTdisp[2].Text,VSHTdisp[3].Text,VSHTdisp[4].Text,"0");
@@ -366,12 +388,20 @@ public partial class Main : Godot.Node3D
         //Probe.velo[1] = 30;
         //Probe.velo[2] = 0;
 
-        //CelE.o[3].s0 = 0;
-        //CelE.o[3].s1 = 0;
-        //CelE.o[3].s2 = 0;
-        //CelE.o[3].c0 = 1;
-        //CelE.o[3].c1 = 1;
-        //CelE.o[3].c2 = 1;
+        //CelE.o[1].om = 0;
+        //CelE.o[1].s0 = 0;
+        //CelE.o[1].s1 = 0;
+        //CelE.o[1].s2 = 0;
+        //CelE.o[1].c0 = 1;
+        //CelE.o[1].c1 = 1;
+        //CelE.o[1].c2 = 1;
+        //CelE.o[2].om = 0;
+        //CelE.o[2].s0 = 0;
+        //CelE.o[2].s1 = 0;
+        //CelE.o[2].s2 = 0;
+        //CelE.o[2].c0 = 1;
+        //CelE.o[2].c1 = 1;
+        //CelE.o[2].c2 = 1;
         
         //double AU = 149597870;
         /*
@@ -419,7 +449,7 @@ public partial class Main : Godot.Node3D
                                         Godot.GD.Print("removeat "+i);
                                     }
                                 }
-                            }else{
+                            }else if(hovering!=-2 && hovering!=0){
                                 //点を追加していかないといけないモード
                                 bSelecting.Add(hovering-1);
                             }
@@ -728,6 +758,9 @@ public partial class Main : Godot.Node3D
                     case "--look":
                     case "-l":
                         int ci = Int32.Parse(cmd[1]);
+                        break;
+                    case "--velocity":
+                    case "-v":
                         break;
                     case "--end":
                     case "-e":

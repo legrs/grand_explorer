@@ -171,7 +171,7 @@ public partial class Main
             //fはcosなので半分越えてたら反転
             if( M > Math.PI){
                 tmp = -tmp;
-                CelE.o[ci].f = MathF.PI - CelE.o[ci].f;
+                CelE.o[ci].f = 2*MathF.PI - CelE.o[ci].f;
             }
             M   = E * (f*CelE.o[ci].c0 - tmp*CelE.o[ci].s0);
             tmp = E * (f*CelE.o[ci].s0 + tmp*CelE.o[ci].c0);
@@ -540,7 +540,9 @@ Godot.GD.Print("aaaaaa");
         public float f = 0;
 
         public int ci = 0; //主星
-        public Orbit(double p, float e, double l, float epo, float om, float s0, float c0, float s1, float s2, float c1, float c2, float f,int ci){
+        public int ci2 = -2; //主星
+        public float fom = 0;
+        public Orbit(double p, float e, double l, float epo, float om, float s0, float c0, float s1, float s2, float c1, float c2, float f,int ci,int ci2,float fom){
             period = p;
             this.e = e;
             this.l = l;
@@ -554,6 +556,8 @@ Godot.GD.Print("aaaaaa");
             this.c2 = c2;
             this.f = f;
             this.ci = ci;
+            this.ci2 = ci2;
+            this.fom = fom;
         }
         public Orbit(){
             period = 1000;
@@ -568,6 +572,8 @@ Godot.GD.Print("aaaaaa");
             c2 = 1;
             f = 0;
             ci = 0;
+            ci2 = -2;
+            fom = 0;
         }
     }
     public static Godot.Vector3 toGV(in Vector3 v){
