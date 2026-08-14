@@ -17,6 +17,11 @@
 
 具体的な操作に関する詳しい説明はゲーム内のCG画面の「このゲームについて」をご覧ください．
 
+<img width="1919" height="1159" alt="image" src="https://github.com/user-attachments/assets/df9873b4-9aa6-4b42-a3d6-ae7003b7fb1b" />
+
+<img width="1919" height="1157" alt="image" src="https://github.com/user-attachments/assets/e7cc068f-6082-4010-ad31-59b7710d764a" />
+
+
 ## Implements
 
 `src`以下にGodotのプロジェクトフォルダがそのまま入ています．
